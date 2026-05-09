@@ -31,6 +31,17 @@ map("v", "<leader>y", [["+y]])
 -- copies the entire current line to the system clipboard.
 map("n", "<leader>Y", [["+Y]])
 
--- deletes text without adding to register
+-- deletes text without adding15 to register
 map("n", "<leader>d", [["_d]])
 map("v", "<leader>d", [["_d]])
+
+map("n", "oo", "o<Esc>")
+map("n", "OO", "O<Esc>")
+
+-- DAP (debugger)
+map("n", "<leader>db", ":DapToggleBreakpoint<CR>")
+map("n", "<leader>dc", ":DapContinue<CR>")
+map("n", "<leader>ds", ":DapStepOver<CR>")
+map("n", "<leader>di", ":DapStepInto<CR>")
+map("n", "<leader>do", ":DapStepOut<CR>")
+vim.keymap.set("n", "<leader>du", function() require('dapui').toggle() end)

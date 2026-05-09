@@ -3,7 +3,7 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-    'tsserver',
+    'pyright',
     'rust_analyzer',
 })
 
@@ -61,6 +61,18 @@ lsp.on_attach(function(client, bufnr)
 end)
 
 lsp.setup()
+
+require('lspconfig').pyright.setup({
+    settings = {
+        python = {
+            analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "workspace",
+            }
+        }
+    }
+})
 
 vim.diagnostic.config({
     virtual_text = true
