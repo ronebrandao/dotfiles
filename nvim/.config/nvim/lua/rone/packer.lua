@@ -10,7 +10,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     -- Theme
-    "gruvbox-community/gruvbox",
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
     -- File explorer
     {
@@ -38,7 +38,6 @@ require("lazy").setup({
     -- Fuzzy finder
     {
         "nvim-telescope/telescope.nvim",
-        tag = "0.1.6",
         dependencies = { "nvim-lua/plenary.nvim" },
     },
 
@@ -53,24 +52,17 @@ require("lazy").setup({
     },
 
     -- LSP stack
-    {
-        "VonHeikemen/lsp-zero.nvim",
-        branch = "v1.x",
-        lazy = false,
-        dependencies = {
-            "neovim/nvim-lspconfig",
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
-            "hrsh7th/nvim-cmp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "saadparwaiz1/cmp_luasnip",
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-nvim-lua",
-            "L3MON4D3/LuaSnip",
-            "rafamadriz/friendly-snippets",
-        },
-    },
+    { "neovim/nvim-lspconfig", lazy = false },
+    { "williamboman/mason.nvim", lazy = false },
+    { "williamboman/mason-lspconfig.nvim", lazy = false },
+    { "hrsh7th/nvim-cmp", lazy = false },
+    { "hrsh7th/cmp-buffer", lazy = false },
+    { "hrsh7th/cmp-path", lazy = false },
+    { "saadparwaiz1/cmp_luasnip", lazy = false },
+    { "hrsh7th/cmp-nvim-lsp", lazy = false },
+    { "hrsh7th/cmp-nvim-lua", lazy = false },
+    { "L3MON4D3/LuaSnip", lazy = false },
+    { "rafamadriz/friendly-snippets", lazy = false },
 
     -- Java LSP (requires ftplugin/java.lua for attachment)
     { "mfussenegger/nvim-jdtls", lazy = false },

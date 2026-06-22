@@ -1,6 +1,30 @@
--- disable netrw at the very start of your init.lua (strongly advised)
-
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+    view = {
+        width = 35,
+    },
+    renderer = {
+        group_empty = false,
+        icons = {
+            web_devicons = {
+                file = { enable = true, color = true },
+                folder = { enable = false },
+            },
+            git_placement = "before",
+        },
+    },
+    filters = {
+        dotfiles = false,
+    },
+    git = {
+        enable = true,
+        ignore = false,
+    },
+    filesystem_watchers = {
+        enable = false,
+    },
+    actions = {
+        open_file = {
+            quit_on_open = false,
+        },
+    },
+})
