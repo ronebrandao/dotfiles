@@ -1,3 +1,11 @@
-nvim/.config/nvim/plugi
-
+# OS junk
 .DS_Store
+*~
+
+# Neovim: plugin manager state installs outside the repo, but ignore any
+# stray local artifacts just in case.
+nvim/.config/nvim/plugin/
+nvim/.config/nvim/.netrwhist
+
+# Backup dirs
+*.bak

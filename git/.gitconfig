@@ -1,12 +1,12 @@
 [user]
-    email = rone_filho@hotmail.com 
+    email = rone_filho@hotmail.com
     name = Rone Brandao
 
 [alias]
     s = status
     co = checkout
     cob = checkout -b
-    del = branch -D    
+    del = branch -D
     br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
     save = !git add -A && git commit -m 'chore: savepoint'
     undo = reset HEAD~1 --mixed
@@ -14,12 +14,3 @@
     done = !git push origin HEAD
     lg = !git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30
     news = !git fetch --all
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-[lfs "customtransfer.xet"]
-	path = git-xet
-	args = transfer
-	concurrent = true

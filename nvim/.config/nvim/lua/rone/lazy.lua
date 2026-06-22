@@ -23,8 +23,12 @@ require("lazy").setup({
     { "folke/trouble.nvim", lazy = false },
 
     -- Syntax highlighting
+    -- Pinned to the `master` branch: the `main` branch is the rewrite that
+    -- removed the `nvim-treesitter.configs` module API used in
+    -- after/plugin/treesitter.lua. Run `:Lazy sync` after changing this.
     {
         "nvim-treesitter/nvim-treesitter",
+        branch = "master",
         build = ":TSUpdate",
         lazy = false,
     },
