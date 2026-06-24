@@ -80,6 +80,44 @@ if [ "$PKG" = "apt" ] && have fdfind && ! have fd; then
 fi
 
 # ---------------------------------------------------------------------------
+# Modern CLI utilities (bat, zoxide, delta, fzf, btop, jq, stow, eza, uv)
+# ---------------------------------------------------------------------------
+log "Installing modern CLI utilities..."
+
+# Same package name across all managers.
+pkg_install bat zoxide fzf btop jq stow
+
+# delta ships as 'git-delta' on every supported manager (binary is 'delta').
+pkg_install git-delta
+
+# On Debian/Ubuntu the bat binary is 'batcat'; expose it as 'bat'.
+if [ "$PKG" = "apt" ] && have batcat && ! have bat; then
+    mkdir -p "$HOME/.local/bin"
+    ln -sf "$(command -v batcat)" "$HOME/.local/bin/bat"
+    log "Symlinked batcat -> ~/.local/bin/bat (ensure ~/.local/bin is on PATH)"
+fi
+
+# eza -- in brew/dnf/pacman, but only on Ubuntu 24.04+ for apt. Don't abort the
+# whole script if the distro package is missing.
+log "Installing eza..."
+if ! pkg_install eza; then
+    warn "eza package not found for $PKG."
+    warn "See https://github.com/eza-community/eza/blob/main/INSTALL.md for repo setup."
+fi
+
+# uv -- packaged by brew/dnf/pacman but NOT in apt; fall back to the official
+# installer in that case.
+if have uv; then
+    log "uv already installed, skipping."
+else
+    log "Installing uv..."
+    case "$PKG" in
+        brew|dnf|pacman) pkg_install uv ;;
+        apt)             curl -LsSf https://astral.sh/uv/install.sh | sh ;;
+    esac
+fi
+
+# ---------------------------------------------------------------------------
 # Node version manager (nvm) -- for JS/TS tooling
 # ---------------------------------------------------------------------------
 if [ -s "$HOME/.nvm/nvm.sh" ] || have nvm; then
@@ -145,4 +183,17 @@ fi
 log "Installing debugpy into venv..."
 "$DEBUGPY_VENV/bin/python" -m pip install --upgrade pip debugpy
 
-log "Done. Open Neovim and run :Mason to verify LSP/DAP servers, and :checkhealth."
+# ---------------------------------------------------------------------------
+# Shell integration -- source the stow-managed tools fragment from ~/.zshrc
+# ---------------------------------------------------------------------------
+# The fragment (zoxide init, eza aliases, bat theme) lives in this repo at
+# zsh/.config/zsh/tools.zsh and lands at ~/.config/zsh/tools.zsh after `stow zsh`.
+# Append a single guarded source line so re-runs don't duplicate it.
+ZSHRC="$HOME/.zshrc"
+MARK="# >>> dotfiles tools.zsh >>>"
+if [ -f "$ZSHRC" ] && ! grep -qF "$MARK" "$ZSHRC"; then
+    printf '\n%s\n[ -f ~/.config/zsh/tools.zsh ] && source ~/.config/zsh/tools.zsh\n' "$MARK" >> "$ZSHRC"
+    log "Added tools.zsh source line to ~/.zshrc"
+fi
+
+log "Done. Run 'stow zsh git' to link configs, then open Neovim and run :Mason / :checkhealth."
